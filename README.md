@@ -13,3 +13,4 @@ tools:
 - Postman
 - Mapstruct
 - JWT
+- OpenAPI (Swagger)

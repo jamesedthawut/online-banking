@@ -30,7 +30,23 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.cors().disable().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeHttpRequests().requestMatchers("/actuator/**", "/register", "/login", "/verify-otp/**", "/verify-user/**")
+                .and().authorizeHttpRequests().requestMatchers(
+                        "/actuator/**",
+                        "/register",
+                        "/login",
+                        "/verify-otp/**",
+                        "/verify-user/**",
+                        "/v2/api-docs",
+                        "/v3/api-docs",
+                        "/v3/api-docs/**",
+                        "/swagger-resources",
+                        "/swagger-resources/**",
+                        "/configuration/ui",
+                        "/configuration/security",
+                        "/webjars/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html"
+                )
                 .anonymous().anyRequest().authenticated().and().apply(new TokenFilterConfigurer(tokenService)).and().build();
     }
 }
