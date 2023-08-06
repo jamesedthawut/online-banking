@@ -33,7 +33,7 @@ Tech Stack:
 
 - Java
 - Spring Boot
-- Postgresql
+- PostgreSQL
 - Docker
 - JWT
 - Maven
