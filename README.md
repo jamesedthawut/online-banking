@@ -32,7 +32,6 @@ and transfers.
 Tech Stack:
 
 - Java
-- HTML
 - Spring Boot
 - Postgresql
 - Docker
