@@ -9,7 +9,7 @@ Key Features:
 1. User Management:
 - Registration and authentication of users with encrypting password 
 and token-based authentication such as JWT.
-- Retrieval and update of user profile information.
+- Retrieval of user information.
 - Sending user verification and OTP for logging in via user email.
 
 2. Accounts and Balances:
@@ -32,9 +32,8 @@ and transfers.
 Tech Stack:
 
 - Java
-- HTML
 - Spring Boot
-- Postgresql
+- PostgreSQL
 - Docker
 - JWT
 - Maven

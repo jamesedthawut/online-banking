@@ -5,6 +5,7 @@ import com.project.entity.User;
 import com.project.exception.CustomException;
 import com.project.exception.OtpException;
 import com.project.exception.UserException;
+import com.project.helper.SecurityUtil;
 import com.project.mapper.UserMapper;
 import com.project.model.LoginRequest;
 import com.project.model.OtpRequest;
@@ -89,35 +90,35 @@ public class UserService {
     }
 
     public String otp(String accountNumber, OtpRequest request) throws CustomException {
-        Optional<Otp> opt1 = otpService.findByOtp(request.getOtp());
+        Optional<Otp> optional1 = otpService.findByOtp(request.getOtp());
 
-        if (opt1.isEmpty()) {
+        if (optional1.isEmpty()) {
             throw OtpException.OtpNotCorrect();
         }
 
-        Otp otp = opt1.get();
+        Otp otp = optional1.get();
 
         if (!otp.getAccountNumber().equals(accountNumber)) {
             throw OtpException.OtpNotCorrect();
         }
 
-        Optional<User> opt2 = loginService.findByAccountNumber(otp.getAccountNumber());
+        Optional<User> optional2 = loginService.findByAccountNumber(otp.getAccountNumber());
 
-        User user = opt2.get();
+        User user = optional2.get();
 
         return tokenService.tokenize(user);
     }
 
     public String refreshToken() throws CustomException {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        String userId = (String) authentication.getPrincipal();
+        Optional<String> currentAccount = SecurityUtil.getCurrentAccount();
 
-        if (userId.isEmpty()) {
+        if (currentAccount.isEmpty()) {
             throw UserException.unauthorized();
         }
 
-        Optional<User> opt = loginService.findById(userId);
+        String userAccount = currentAccount.get();
+
+        Optional<User> opt = loginService.findByAccountNumber(userAccount);
 
         if (opt.isEmpty()) {
             throw UserException.userNotFound();
