@@ -4,6 +4,8 @@ import com.project.entity.Account;
 import com.project.entity.User;
 import com.project.exception.AccountException;
 import com.project.exception.CustomException;
+import com.project.exception.UserException;
+import com.project.helper.SecurityUtil;
 import com.project.repository.AccountRepository;
 import com.project.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,18 @@ public class TransferService {
     }
 
     public Account transfer(String fromAccountNumber, String toAccountNumber, double value) throws CustomException {
+        Optional<String> opt = SecurityUtil.getCurrentAccount();
+
+        if(opt.isEmpty()) {
+            throw UserException.unauthorized();
+        }
+
+        String currentAccount = opt.get();
+
+        if(!currentAccount.equals(fromAccountNumber)) {
+            throw UserException.unauthorized();
+        }
+
         if(fromAccountNumber.equals(toAccountNumber)) {
             throw AccountException.transferSameAccount();
         }

@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.project.entity.User;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -32,7 +33,7 @@ public class TokenService {
 
         return JWT.create()
                 .withIssuer(issuer)
-                .withClaim("principal", user.getId())
+                .withClaim("principal", user.getAccountNumber())
                 .withClaim("role", "User")
                 .withExpiresAt(time)
                 .sign(algorithm());
@@ -43,7 +44,6 @@ public class TokenService {
             JWTVerifier verifier = JWT.require(algorithm())
                     .withIssuer(issuer)
                     .build();
-
             return verifier.verify(token);
 
         } catch (Exception e) {
