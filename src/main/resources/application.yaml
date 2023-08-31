@@ -3,14 +3,16 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: 1111
+
   jpa:
     hibernate:
       ddl-auto: update
+
   mail:
     host: smtp.gmail.com
     port: 587
     username: jamesedthawut98
-    password: ztvmknwrubsavgpa
+    password:
     properties:
       mail:
         smtp:
